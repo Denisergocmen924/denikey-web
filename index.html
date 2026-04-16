@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+  >
+  <title>DeniKey | Şifreleriniz Güvende</title>
+  <meta
+    name="description"
+    content="DeniKey, şifrelerinizi daha güvenli ve daha sade şekilde yönetmeniz için geliştirilen modern bir parola yöneticisidir."
+  >
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="page-shell">
+    <div class="noise"></div>
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="grid-lines"></div>
+
+    <header class="topbar">
+      <a class="brand" href="#hero" aria-label="DeniKey ana sayfa">
+        <span class="brand-mark">
+          <img src="assets/denikey_logo.png" alt="DeniKey logo">
+        </span>
+        <span class="brand-text">DeniKey</span>
+      </a>
+      <span class="status-pill">Masaüstü sürüm</span>
+    </header>
+
+    <main>
+      <section class="hero reveal" id="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">DeniKey</p>
+          <h1>Şifreleriniz güvende.</h1>
+          <p class="hero-text">
+            DeniKey, şifrelerinizi tek yerde daha düzenli ve daha güvenli şekilde yönetmeniz için geliştirildi.
+            Güçlü koruma mantığını sade bir masaüstü deneyimiyle birleştirir.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-button" href="/download" id="downloadButton">İndir</a>
+            <a class="secondary-button" href="#about">Nedir?</a>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="visual-card main-card">
+            <div class="card-topline"></div>
+            <div class="mini-label">Koruma Aktif</div>
+            <div class="visual-title">DeniKey güven katmanı</div>
+            <div class="visual-lines">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="signal-cluster">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <div class="visual-card side-card side-card-top">
+            <span>Yerel şifreleme</span>
+          </div>
+          <div class="visual-card side-card side-card-bottom">
+            <span>Cihaz doğrulama</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="about reveal" id="about">
+        <div class="section-heading">
+          <p class="eyebrow">Nedir?</p>
+          <h2>Sade görünen ama güvenliği ciddiye alan bir parola yöneticisi.</h2>
+        </div>
+        <p class="about-text">
+          DeniKey, şifrelerinizi tek yerde toplamanız için geliştirilen masaüstü odaklı bir uygulamadır.
+          Amaç sadece şifre saklamak değil; bunu daha güvenli, daha düzenli ve daha rahat bir şekilde yapmaktır.
+          Verileriniz korunur, arayüz ise sizi yormaz.
+        </p>
+      </section>
+
+      <section class="features reveal" id="features">
+        <div class="section-heading">
+          <p class="eyebrow">Öne Çıkanlar</p>
+          <h2>Temel ama güçlü.</h2>
+        </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="card-index">01</div>
+            <h3>Şifreleme önce gelir</h3>
+            <p>
+              DeniKey, verilerinizi korumayı merkeze alır. Şifreleriniz uygulamanın temel yapısında güvenli şekilde ele alınır.
+            </p>
+          </article>
+          <article class="feature-card">
+            <div class="card-index">02</div>
+            <h3>Daha düzenli yönetim</h3>
+            <p>
+              Giriş bilgileri, kartlar, notlar ve benzeri veriler tek yerde toplanır. Aradığınızı bulmak daha kolay hale gelir.
+            </p>
+          </article>
+          <article class="feature-card">
+            <div class="card-index">03</div>
+            <h3>Cihaz odaklı güven</h3>
+            <p>
+              Yeni girişler ve cihaz kullanımı daha kontrollü ilerler. Bu da hesabınız üzerinde ekstra bir güven hissi oluşturur.
+            </p>
+          </article>
+          <article class="feature-card">
+            <div class="card-index">04</div>
+            <h3>Sade kullanım deneyimi</h3>
+            <p>
+              Güvenlik güçlü olabilir ama kullanım karmaşık olmak zorunda değil. DeniKey, bunu mümkün olduğunca basit hissettirmeyi hedefler.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="architecture reveal" id="architecture">
+        <div class="section-heading">
+          <p class="eyebrow">Güvenlik Mimarisi</p>
+          <h2>Koruma mantığı, uygulamanın merkezinde çalışır.</h2>
+        </div>
+        <div class="architecture-grid">
+          <article class="architecture-card">
+            <div class="card-index">01</div>
+            <h3>İstemci tarafında şifreleme</h3>
+            <p>
+              Vault verileri cihaz tarafında şifrelenir. Sunucu, veriyi düz metin halinde görmeden yalnızca şifreli içerikle çalışır.
+            </p>
+          </article>
+          <article class="architecture-card">
+            <div class="card-index">02</div>
+            <h3>Argon2id ve AES-256-GCM</h3>
+            <p>
+              Anahtar türetme ve veri şifreleme katmanı modern algoritmalarla kuruludur. Bu yapı hem dayanıklılık hem bütünlük kontrolü sağlar.
+            </p>
+          </article>
+          <article class="architecture-card">
+            <div class="card-index">03</div>
+            <h3>Her işlem için yeni nonce</h3>
+            <p>
+              Şifreleme sırasında her veri için yeni IV/nonce üretilir. Bu sayede tekrar eden veri desenleri açığa çıkmaz.
+            </p>
+          </article>
+          <article class="architecture-card">
+            <div class="card-index">04</div>
+            <h3>Sıfır-bilgi yaklaşımı</h3>
+            <p>
+              Master password sunucuya gönderilmez. Kritik şifreleme mantığı uygulama tarafında kalır ve koruma sınırı bu noktada başlar.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="stack reveal" id="stack">
+        <div class="section-heading">
+          <p class="eyebrow">Teknik Altyapı</p>
+          <h2>Modern, katmanlı ve denetlenebilir bir yapı.</h2>
+        </div>
+        <div class="stack-shell">
+          <article class="stack-panel">
+            <h3>Uygulama katmanı</h3>
+            <ul class="stack-list">
+              <li>Flutter masaüstü istemcisi</li>
+              <li>Riverpod tabanlı state yönetimi</li>
+              <li>GoRouter ile akış kontrolü</li>
+              <li>Güvenli yerel depolama ve offline cache desteği</li>
+            </ul>
+          </article>
+          <article class="stack-panel">
+            <h3>Servis katmanı</h3>
+            <ul class="stack-list">
+              <li>FastAPI tabanlı backend mimarisi</li>
+              <li>JWT kimlik doğrulama ve refresh token akışı</li>
+              <li>Cihaz doğrulama ve rate limiting korumaları</li>
+              <li>Audit log, destek talebi ve parola geçmişi desteği</li>
+            </ul>
+          </article>
+          <article class="stack-panel">
+            <h3>Veri katmanı</h3>
+            <ul class="stack-list">
+              <li>SQLAlchemy async veri erişim yapısı</li>
+              <li>Alembic migration akışı</li>
+              <li>PostgreSQL uyumlu kalıcı veri modeli</li>
+              <li>Şifreli vault verisi ile ayrıştırılmış metadata yapısı</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="assurance reveal" id="assurance">
+        <div class="assurance-card">
+          <p class="eyebrow">Neden Güvenilir?</p>
+          <h2>Gösterişli vaatlerden çok, uygulanmış güvenlik katmanlarına dayanır.</h2>
+          <p>
+            DeniKey tarafında güven; istemcide şifreleme, cihaz bazlı doğrulama, modern kimlik doğrulama akışı,
+            işlem kayıtları, biyometrik kilit ve kontrollü veri erişimi ile kurulur. Amaç yalnızca şifre saklamak değil,
+            bunu teknik olarak tutarlı bir mimari üzerinde yapmak.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden>
+    <span id="toastMessage">İndirme paketi şu anda hazırlanıyor.</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
