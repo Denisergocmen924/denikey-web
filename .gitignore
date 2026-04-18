@@ -4,3 +4,10 @@ __pycache__/
 *.db-journal
 data/
 assets/denikey_logo_rounded.png
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
