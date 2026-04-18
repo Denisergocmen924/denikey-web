@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gizlilik Politikası | DeniKey</title>
+  <meta name="description" content="DeniKey gizlilik politikası — kullanıcı verilerinin nasıl korunduğu.">
+  <link rel="stylesheet" href="app.css">
+  <style>
+    .privacy-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 120px 24px 80px;
+      color: var(--text, #e2e8f0);
+    }
+    .privacy-wrap h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .privacy-wrap .updated {
+      font-size: 0.85rem;
+      color: var(--muted, #64748b);
+      margin-bottom: 48px;
+    }
+    .privacy-wrap h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      color: #fff;
+    }
+    .privacy-wrap p, .privacy-wrap li {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--text-muted, #94a3b8);
+    }
+    .privacy-wrap ul {
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+    .privacy-wrap ul li { margin-bottom: 6px; }
+    .privacy-wrap a { color: #60a5fa; text-decoration: none; }
+    .privacy-wrap a:hover { text-decoration: underline; }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 40px;
+      font-size: 0.9rem;
+      color: #60a5fa;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <div class="noise"></div>
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="grid-lines"></div>
+
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="DeniKey ana sayfa">
+        <span class="brand-mark">
+          <img src="assets/denikey_logo.png" alt="DeniKey logo">
+        </span>
+        <span class="brand-text">DeniKey</span>
+      </a>
+    </header>
+
+    <main class="privacy-wrap">
+      <a class="back-link" href="/">← Ana Sayfaya Dön</a>
+      <h1>Gizlilik Politikası</h1>
+      <p class="updated">Son güncelleme: 18 Nisan 2026</p>
+
+      <h2>1. Genel Bakış</h2>
+      <p>
+        DeniKey, sıfır-bilgi (zero-knowledge) mimarisiyle çalışan bir şifre yöneticisidir.
+        Tasarım gereği, şifrelerinize ve kişisel verilerinize hiçbir zaman erişemeyiz.
+        Bu politika, hangi verileri topladığımızı ve nasıl kullandığımızı açıklar.
+      </p>
+
+      <h2>2. Topladığımız Veriler</h2>
+      <ul>
+        <li><strong>E-posta adresi:</strong> Hesap oluşturma ve doğrulama için kullanılır.</li>
+        <li><strong>Master password hash:</strong> Argon2id ile türetilmiş hash sunucuda saklanır; asıl şifreniz hiçbir zaman sunucuya gönderilmez.</li>
+        <li><strong>Şifreli vault verisi:</strong> Tüm şifre ve notlarınız cihazınızda AES-256-GCM ile şifrelenir; sunucu yalnızca şifreli (okunamaz) veriyi saklar.</li>
+        <li><strong>Cihaz bilgisi:</strong> Oturum yönetimi için cihaz türü bilgisi toplanabilir.</li>
+      </ul>
+
+      <h2>3. Toplamadığımız Veriler</h2>
+      <ul>
+        <li>Asıl master şifreniz</li>
+        <li>Şifrelenmemiş vault içeriği (şifreler, notlar, kullanıcı adları)</li>
+        <li>Konum, rehber, kamera veya mikrofon verisi</li>
+        <li>Üçüncü taraf reklam verisi</li>
+      </ul>
+
+      <h2>4. Verilerin Kullanımı</h2>
+      <p>Toplanan veriler yalnızca şu amaçlarla kullanılır:</p>
+      <ul>
+        <li>Hesap doğrulama ve kimlik doğrulama</li>
+        <li>Şifreli vault verisinin sunucuda saklanması ve senkronizasyonu</li>
+        <li>Şifre sıfırlama e-postası gönderimi</li>
+      </ul>
+
+      <h2>5. Veri Güvenliği</h2>
+      <ul>
+        <li>Şifreleme: <strong>AES-256-GCM</strong></li>
+        <li>Anahtar türetme: <strong>Argon2id</strong> (memory: 65536 KB, iterations: 3)</li>
+        <li>Aktarım: Tüm iletişim <strong>HTTPS/TLS</strong> üzerinden gerçekleşir.</li>
+        <li>Kimlik doğrulama: <strong>JWT</strong> token tabanlı</li>
+      </ul>
+
+      <h2>6. Üçüncü Taraf Hizmetler</h2>
+      <ul>
+        <li><strong>Railway:</strong> Backend hosting (Avrupa bölgesi)</li>
+        <li><strong>Supabase:</strong> PostgreSQL veritabanı</li>
+        <li><strong>Resend:</strong> E-posta gönderimi (yalnızca doğrulama ve şifre sıfırlama)</li>
+      </ul>
+
+      <h2>7. Veri Saklama ve Silme</h2>
+      <p>
+        Hesabınızı sildiğinizde tüm verileriniz kalıcı olarak silinir.
+        Şifreli vault verisi sunucumuzdan tamamen kaldırılır.
+      </p>
+
+      <h2>8. Çocukların Gizliliği</h2>
+      <p>
+        DeniKey 13 yaş altı çocuklara yönelik değildir ve bu yaş grubundan bilerek veri toplamaz.
+      </p>
+
+      <h2>9. İletişim</h2>
+      <p>
+        Gizlilik ile ilgili sorularınız için:
+        <a href="mailto:denisergocmen@gmail.com">denisergocmen@gmail.com</a>
+      </p>
+    </main>
+  </div>
+</body>
+</html>
