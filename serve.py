@@ -8,7 +8,8 @@ from collections import defaultdict
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import quote, urlparse
+import posixpath
+from urllib.parse import quote, unquote, urlparse
 
 
 ROOT = Path(__file__).resolve().parent
@@ -34,10 +35,16 @@ def _is_rate_limited(ip: str) -> bool:
     now = time.monotonic()
     with _rate_lock:
         timestamps = [t for t in _rate_store[ip] if now - t < _RATE_WINDOW]
-        _rate_store[ip] = timestamps
         if len(timestamps) >= _RATE_LIMIT:
+            _rate_store[ip] = timestamps
             return True
-        _rate_store[ip].append(now)
+        timestamps.append(now)
+        _rate_store[ip] = timestamps
+        if len(_rate_store) > 10_000:
+            cutoff = now - _RATE_WINDOW
+            stale = [k for k, v in _rate_store.items() if not v or v[-1] < cutoff]
+            for k in stale:
+                del _rate_store[k]
         return False
 
 
@@ -130,21 +137,23 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:
         parsed = urlparse(self.path)
+        clean_path = posixpath.normpath(unquote(parsed.path))
 
-        if parsed.path == "/":
+        if clean_path == "/":
             self.path = "/index.html"
             super().do_GET()
             return
 
-        if parsed.path == "/api/site-state":
+        if clean_path == "/api/site-state":
             self.respond_json(public_site_state())
             return
 
-        if parsed.path == "/download":
+        if clean_path == "/download":
             self.handle_download()
             return
 
-        if _is_static_allowed(parsed.path):
+        if _is_static_allowed(clean_path):
+            self.path = clean_path
             super().do_GET()
             return
 
@@ -211,7 +220,6 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
-        self.send_header("Cache-Control", "no-store")
         self.end_headers()
         self.wfile.write(body)
 
