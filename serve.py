@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import json
 import os
+import threading
+import time
+from collections import defaultdict
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -13,6 +16,40 @@ DOWNLOADS_DIR = ROOT / "downloads"
 CONFIG_PATH = ROOT / "site_config.json"
 DEFAULT_PORT = int(os.environ.get("PORT", "8080"))
 
+# Only GitHub releases URLs are accepted as redirect targets
+_ALLOWED_REDIRECT_PREFIX = "https://github.com/"
+
+# Statik olarak servis edilebilecek path'ler (allowlist)
+_STATIC_EXACT = {"/index.html", "/app.css", "/app.js", "/privacy.html"}
+_STATIC_PREFIXES = ("/assets/", "/downloads/")
+
+# Rate limiting: 60 saniyede max 15 /download isteği per IP
+_RATE_LIMIT = 15
+_RATE_WINDOW = 60
+_rate_store: dict[str, list[float]] = defaultdict(list)
+_rate_lock = threading.Lock()
+
+
+def _is_rate_limited(ip: str) -> bool:
+    now = time.monotonic()
+    with _rate_lock:
+        timestamps = [t for t in _rate_store[ip] if now - t < _RATE_WINDOW]
+        _rate_store[ip] = timestamps
+        if len(timestamps) >= _RATE_LIMIT:
+            return True
+        _rate_store[ip].append(now)
+        return False
+
+
+def _is_static_allowed(path: str) -> bool:
+    if path in _STATIC_EXACT:
+        return True
+    return any(path.startswith(prefix) for prefix in _STATIC_PREFIXES)
+
+
+def _is_valid_redirect_url(url: str) -> bool:
+    return url.startswith(_ALLOWED_REDIRECT_PREFIX)
+
 
 def ensure_setup() -> None:
     DOWNLOADS_DIR.mkdir(exist_ok=True)
@@ -21,6 +58,7 @@ def ensure_setup() -> None:
             json.dumps(
                 {
                     "download_filename": "",
+                    "download_url": "",
                 },
                 ensure_ascii=False,
                 indent=2,
@@ -31,13 +69,14 @@ def ensure_setup() -> None:
 
 def read_config() -> dict[str, str]:
     if not CONFIG_PATH.exists():
-        return {"download_filename": ""}
+        return {"download_filename": "", "download_url": ""}
 
     with CONFIG_PATH.open("r", encoding="utf-8") as config_file:
         payload = json.load(config_file)
 
     return {
         "download_filename": str(payload.get("download_filename", "")).strip(),
+        "download_url": str(payload.get("download_url", "")).strip(),
     }
 
 
@@ -59,16 +98,18 @@ def resolve_download_target() -> dict[str, str]:
         if candidate.is_file() and not candidate.name.startswith("."):
             return {"type": "local", "value": candidate.name}
 
+    if config["download_url"] and _is_valid_redirect_url(config["download_url"]):
+        return {"type": "redirect", "value": config["download_url"]}
+
     return {"type": "", "value": ""}
 
 
 def public_site_state() -> dict[str, object]:
     download_target = resolve_download_target()
+    enabled = bool(download_target["value"])
     return {
-        "download_enabled": bool(download_target["value"]),
-        "download_kind": download_target["type"] or None,
-        "download_name": download_target["value"] or None,
-        "download_label": "İndir" if download_target["value"] else "Çok yakında",
+        "download_enabled": enabled,
+        "download_label": "İndir" if enabled else "Çok yakında",
     }
 
 
@@ -80,6 +121,8 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
         ".js": "application/javascript; charset=utf-8",
         ".json": "application/json; charset=utf-8",
         ".svg": "image/svg+xml",
+        ".png": "image/png",
+        ".ico": "image/x-icon",
     }
 
     def __init__(self, *args, **kwargs):
@@ -101,7 +144,11 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
             self.handle_download()
             return
 
-        super().do_GET()
+        if _is_static_allowed(parsed.path):
+            super().do_GET()
+            return
+
+        self.send_error(HTTPStatus.NOT_FOUND)
 
     def do_POST(self) -> None:
         self.respond_method_not_allowed()
@@ -137,6 +184,11 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
         super().end_headers()
 
     def handle_download(self) -> None:
+        client_ip = self.client_address[0]
+        if _is_rate_limited(client_ip):
+            self.send_error(HTTPStatus.TOO_MANY_REQUESTS)
+            return
+
         download_target = resolve_download_target()
 
         if not download_target["value"]:
@@ -145,11 +197,12 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             return
 
-        self.send_response(HTTPStatus.FOUND)
         if download_target["type"] == "redirect":
             location = download_target["value"]
         else:
             location = f"/downloads/{quote(download_target['value'])}"
+
+        self.send_response(HTTPStatus.FOUND)
         self.send_header("Location", location)
         self.end_headers()
 
