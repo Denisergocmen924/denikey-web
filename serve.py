@@ -21,7 +21,7 @@ DEFAULT_PORT = int(os.environ.get("PORT", "8080"))
 _ALLOWED_REDIRECT_PREFIX = "https://github.com/"
 
 # Statik olarak servis edilebilecek path'ler (allowlist)
-_STATIC_EXACT = {"/index.html", "/app.css", "/app.js", "/privacy.html"}
+_STATIC_EXACT = {"/index.html", "/app.css", "/app.js", "/privacy.html", "/sitemap.xml", "/robots.txt"}
 _STATIC_PREFIXES = ("/assets/", "/downloads/")
 
 # Rate limiting: 60 saniyede max 15 /download isteği per IP
