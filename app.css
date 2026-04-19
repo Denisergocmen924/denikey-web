@@ -176,6 +176,8 @@ section {
   border: 1px solid rgba(255,255,255,0.12);
 }
 .primary-button:hover { opacity: 0.85; }
+.download-btn { gap: 8px; }
+.download-linux { background: #0d1220; border-color: rgba(255,255,255,0.08); }
 
 .secondary-button {
   background: transparent;
