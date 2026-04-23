@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gizlilik Politikası | DeniKey</title>
-  <meta name="description" content="DeniKey gizlilik politikası — kullanıcı verilerinin nasıl korunduğu.">
+  <title>Privacy Policy | DeniKey</title>
+  <meta name="description" content="DeniKey privacy policy — how user data is protected.">
   <link rel="stylesheet" href="app.css">
   <style>
     .privacy-wrap {
@@ -58,82 +58,93 @@
     <div class="grid-lines"></div>
 
     <header class="topbar">
-      <a class="brand" href="/" aria-label="DeniKey ana sayfa">
+      <a class="brand" href="/" aria-label="DeniKey home">
         <span class="brand-mark">
           <img src="assets/denikey_logo.png" alt="DeniKey logo">
         </span>
         <span class="brand-text">DeniKey</span>
       </a>
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn" id="langBtn" aria-haspopup="listbox" aria-expanded="false">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span data-i18n="lang.btn">Language</span>
+          <svg class="lang-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <ul class="lang-dropdown" id="langDropdown" role="listbox">
+          <li class="lang-option" role="option" data-lang="en">English</li>
+          <li class="lang-option" role="option" data-lang="tr">Türkçe</li>
+          <li class="lang-option" role="option" data-lang="ru">Русский</li>
+        </ul>
+      </div>
     </header>
 
     <main class="privacy-wrap">
-      <a class="back-link" href="/">← Ana Sayfaya Dön</a>
-      <h1>Gizlilik Politikası</h1>
-      <p class="updated">Son güncelleme: 18 Nisan 2026</p>
+      <a class="back-link" href="/" data-i18n="privacy.back">← Back to Home</a>
+      <h1 data-i18n="privacy.h1">Privacy Policy</h1>
+      <p class="updated" data-i18n="privacy.updated">Last updated: April 18, 2026</p>
 
-      <h2>1. Genel Bakış</h2>
-      <p>
-        DeniKey, sıfır-bilgi (zero-knowledge) mimarisiyle çalışan bir şifre yöneticisidir.
-        Tasarım gereği, şifrelerinize ve kişisel verilerinize hiçbir zaman erişemeyiz.
-        Bu politika, hangi verileri topladığımızı ve nasıl kullandığımızı açıklar.
+      <h2 data-i18n="privacy.s1.h2">1. Overview</h2>
+      <p data-i18n="privacy.s1.p">
+        DeniKey is a password manager built on zero-knowledge architecture. By design, we can never access your passwords or personal data. This policy explains what data we collect and how we use it.
       </p>
 
-      <h2>2. Topladığımız Veriler</h2>
+      <h2 data-i18n="privacy.s2.h2">2. Data We Collect</h2>
       <ul>
-        <li><strong>E-posta adresi:</strong> Hesap oluşturma ve doğrulama için kullanılır.</li>
-        <li><strong>Master password hash:</strong> Argon2id ile türetilmiş hash sunucuda saklanır; asıl şifreniz hiçbir zaman sunucuya gönderilmez.</li>
-        <li><strong>Şifreli vault verisi:</strong> Tüm şifre ve notlarınız cihazınızda AES-256-GCM ile şifrelenir; sunucu yalnızca şifreli (okunamaz) veriyi saklar.</li>
-        <li><strong>Cihaz bilgisi:</strong> Oturum yönetimi için cihaz türü bilgisi toplanabilir.</li>
+        <li data-i18n-html="privacy.s2.li1"><strong>Email address:</strong> Used for account creation and verification.</li>
+        <li data-i18n-html="privacy.s2.li2"><strong>Master password hash:</strong> An Argon2id-derived hash is stored on the server; your actual password is never transmitted.</li>
+        <li data-i18n-html="privacy.s2.li3"><strong>Encrypted vault data:</strong> All your passwords and notes are encrypted on your device with AES-256-GCM; the server only stores encrypted (unreadable) data.</li>
+        <li data-i18n-html="privacy.s2.li4"><strong>Device information:</strong> Device type may be collected for session management.</li>
       </ul>
 
-      <h2>3. Toplamadığımız Veriler</h2>
+      <h2 data-i18n="privacy.s3.h2">3. Data We Do Not Collect</h2>
       <ul>
-        <li>Asıl master şifreniz</li>
-        <li>Şifrelenmemiş vault içeriği (şifreler, notlar, kullanıcı adları)</li>
-        <li>Konum, rehber, kamera veya mikrofon verisi</li>
-        <li>Üçüncü taraf reklam verisi</li>
+        <li data-i18n="privacy.s3.li1">Your actual master password</li>
+        <li data-i18n="privacy.s3.li2">Unencrypted vault contents (passwords, notes, usernames)</li>
+        <li data-i18n="privacy.s3.li3">Location, contacts, camera, or microphone data</li>
+        <li data-i18n="privacy.s3.li4">Third-party advertising data</li>
       </ul>
 
-      <h2>4. Verilerin Kullanımı</h2>
-      <p>Toplanan veriler yalnızca şu amaçlarla kullanılır:</p>
+      <h2 data-i18n="privacy.s4.h2">4. Use of Data</h2>
+      <p data-i18n="privacy.s4.p">Collected data is used solely for the following purposes:</p>
       <ul>
-        <li>Hesap doğrulama ve kimlik doğrulama</li>
-        <li>Şifreli vault verisinin sunucuda saklanması ve senkronizasyonu</li>
-        <li>Şifre sıfırlama e-postası gönderimi</li>
+        <li data-i18n="privacy.s4.li1">Account verification and authentication</li>
+        <li data-i18n="privacy.s4.li2">Storage and synchronization of encrypted vault data on the server</li>
+        <li data-i18n="privacy.s4.li3">Sending password reset emails</li>
       </ul>
 
-      <h2>5. Veri Güvenliği</h2>
+      <h2 data-i18n="privacy.s5.h2">5. Data Security</h2>
       <ul>
-        <li>Şifreleme: <strong>AES-256-GCM</strong></li>
-        <li>Anahtar türetme: <strong>Argon2id</strong> (memory: 65536 KB, iterations: 3)</li>
-        <li>Aktarım: Tüm iletişim <strong>HTTPS/TLS</strong> üzerinden gerçekleşir.</li>
-        <li>Kimlik doğrulama: <strong>JWT</strong> token tabanlı</li>
+        <li data-i18n-html="privacy.s5.li1">Encryption: <strong>AES-256-GCM</strong></li>
+        <li data-i18n-html="privacy.s5.li2">Key derivation: <strong>Argon2id</strong> (memory: 65536 KB, iterations: 3)</li>
+        <li data-i18n-html="privacy.s5.li3">Transport: All communication is via <strong>HTTPS/TLS</strong>.</li>
+        <li data-i18n-html="privacy.s5.li4">Authentication: <strong>JWT</strong> token-based</li>
       </ul>
 
-      <h2>6. Üçüncü Taraf Hizmetler</h2>
+      <h2 data-i18n="privacy.s6.h2">6. Third-Party Services</h2>
       <ul>
-        <li><strong>Railway:</strong> Backend hosting (Avrupa bölgesi)</li>
-        <li><strong>Supabase:</strong> PostgreSQL veritabanı</li>
-        <li><strong>Resend:</strong> E-posta gönderimi (yalnızca doğrulama ve şifre sıfırlama)</li>
+        <li data-i18n-html="privacy.s6.li1"><strong>Railway:</strong> Backend hosting (European region)</li>
+        <li data-i18n-html="privacy.s6.li2"><strong>Supabase:</strong> PostgreSQL database</li>
+        <li data-i18n-html="privacy.s6.li3"><strong>Resend:</strong> Email delivery (verification and password reset only)</li>
       </ul>
 
-      <h2>7. Veri Saklama ve Silme</h2>
-      <p>
-        Hesabınızı sildiğinizde tüm verileriniz kalıcı olarak silinir.
-        Şifreli vault verisi sunucumuzdan tamamen kaldırılır.
+      <h2 data-i18n="privacy.s7.h2">7. Data Retention and Deletion</h2>
+      <p data-i18n="privacy.s7.p">
+        When you delete your account, all your data is permanently removed. Encrypted vault data is completely erased from our servers.
       </p>
 
-      <h2>8. Çocukların Gizliliği</h2>
-      <p>
-        DeniKey 13 yaş altı çocuklara yönelik değildir ve bu yaş grubundan bilerek veri toplamaz.
+      <h2 data-i18n="privacy.s8.h2">8. Children's Privacy</h2>
+      <p data-i18n="privacy.s8.p">
+        DeniKey is not intended for children under 13 and does not knowingly collect data from this age group.
       </p>
 
-      <h2>9. İletişim</h2>
-      <p>
-        Gizlilik ile ilgili sorularınız için:
-        <a href="mailto:denisergocmen@gmail.com">denisergocmen@gmail.com</a>
+      <h2 data-i18n="privacy.s9.h2">9. Contact</h2>
+      <p data-i18n-html="privacy.s9.p">
+        For privacy-related questions: <a href="mailto:denisergocmen@gmail.com">denisergocmen@gmail.com</a>
       </p>
     </main>
   </div>
+
+  <script src="translations.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

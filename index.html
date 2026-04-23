@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +7,10 @@
     http-equiv="Content-Security-Policy"
     content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
   >
-  <title>DeniKey | Şifreleriniz Güvende</title>
+  <title>DeniKey | Your Passwords Are Safe</title>
   <meta
     name="description"
-    content="DeniKey, şifrelerinizi daha güvenli ve daha sade şekilde yönetmeniz için geliştirilen modern bir parola yöneticisidir."
+    content="DeniKey is a modern password manager built to help you manage your passwords more securely and simply."
   >
   <link rel="stylesheet" href="app.css">
 </head>
@@ -22,23 +22,33 @@
     <div class="grid-lines"></div>
 
     <header class="topbar">
-      <a class="brand" href="#hero" aria-label="DeniKey ana sayfa">
+      <a class="brand" href="#hero" aria-label="DeniKey home">
         <span class="brand-mark">
           <img src="assets/denikey_logo.png" alt="DeniKey logo">
         </span>
         <span class="brand-text">DeniKey</span>
       </a>
-      <span class="status-pill">Masaüstü sürüm</span>
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn" id="langBtn" aria-haspopup="listbox" aria-expanded="false">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span data-i18n="lang.btn">Language</span>
+          <svg class="lang-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <ul class="lang-dropdown" id="langDropdown" role="listbox">
+          <li class="lang-option" role="option" data-lang="en">English</li>
+          <li class="lang-option" role="option" data-lang="tr">Türkçe</li>
+          <li class="lang-option" role="option" data-lang="ru">Русский</li>
+        </ul>
+      </div>
     </header>
 
     <main>
       <section class="hero reveal" id="hero">
         <div class="hero-copy">
-          <p class="eyebrow">DeniKey</p>
-          <h1>Şifreleriniz güvende.</h1>
-          <p class="hero-text">
-            DeniKey, şifrelerinizi tek yerde daha düzenli ve daha güvenli şekilde yönetmeniz için geliştirildi.
-            Güçlü koruma mantığını sade bir masaüstü deneyimiyle birleştirir.
+          <p class="eyebrow" data-i18n="hero.eyebrow">DeniKey</p>
+          <h1 data-i18n="hero.h1">Your passwords are safe.</h1>
+          <p class="hero-text" data-i18n="hero.text">
+            DeniKey was built to help you manage your passwords more securely and organized, all in one place. It combines powerful protection with a clean, focused experience.
           </p>
           <div class="hero-actions">
             <a class="primary-button download-btn" href="https://github.com/Denisergocmen924/denikey-releases/releases/latest/download/DeniKey-Setup.exe" id="downloadWindows" target="_blank" rel="noopener noreferrer">
@@ -53,15 +63,15 @@
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.523 15.341a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zm-11.046 0a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zM.435 7.91l2.05 3.55A2.5 2.5 0 0 0 4.5 12.75h15a2.5 2.5 0 0 0 2.015-1.29l2.05-3.55A1 1 0 0 0 22.69 6.5H1.31a1 1 0 0 0-.875 1.41zM15.4 1.1l1.5 2.6H7.1l1.5-2.6a.5.5 0 0 1 .866 0L10.5 2.75h3l1.034-1.65a.5.5 0 0 1 .866 0zM4.5 14.25v5a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-5H4.5z"/></svg>
               Android
             </a>
-            <a class="secondary-button" href="#about">Nedir?</a>
+            <a class="secondary-button" href="#about" data-i18n="btn.what">What is it?</a>
           </div>
         </div>
 
         <div class="hero-visual" aria-hidden="true">
           <div class="visual-card main-card">
             <div class="card-topline"></div>
-            <div class="mini-label">Koruma Aktif</div>
-            <div class="visual-title">DeniKey güven katmanı</div>
+            <div class="mini-label" data-i18n="hero.card.label">Protection Active</div>
+            <div class="visual-title" data-i18n="hero.card.title">DeniKey trust layer</div>
             <div class="visual-lines">
               <span></span>
               <span></span>
@@ -74,58 +84,56 @@
             </div>
           </div>
           <div class="visual-card side-card side-card-top">
-            <span>Yerel şifreleme</span>
+            <span data-i18n="hero.card.local">Local encryption</span>
           </div>
           <div class="visual-card side-card side-card-bottom">
-            <span>Cihaz doğrulama</span>
+            <span data-i18n="hero.card.device">Device verification</span>
           </div>
         </div>
       </section>
 
       <section class="about reveal" id="about">
         <div class="section-heading">
-          <p class="eyebrow">Nedir?</p>
-          <h2>Sade görünen ama güvenliği ciddiye alan bir parola yöneticisi.</h2>
+          <p class="eyebrow" data-i18n="about.eyebrow">What is it?</p>
+          <h2 data-i18n="about.h2">A password manager that looks simple but takes security seriously.</h2>
         </div>
-        <p class="about-text">
-          DeniKey, şifrelerinizi tek yerde toplamanız için geliştirilen masaüstü odaklı bir uygulamadır.
-          Amaç sadece şifre saklamak değil; bunu daha güvenli, daha düzenli ve daha rahat bir şekilde yapmaktır.
-          Verileriniz korunur, arayüz ise sizi yormaz.
+        <p class="about-text" data-i18n="about.text">
+          DeniKey is a desktop-focused application designed to keep all your passwords in one place. The goal isn't just to store passwords — it's to do it more securely, more organized, and more comfortably. Your data is protected, and the interface won't get in your way.
         </p>
       </section>
 
       <section class="features reveal" id="features">
         <div class="section-heading">
-          <p class="eyebrow">Öne Çıkanlar</p>
-          <h2>Temel ama güçlü.</h2>
+          <p class="eyebrow" data-i18n="features.eyebrow">Highlights</p>
+          <h2 data-i18n="features.h2">Essential but powerful.</h2>
         </div>
         <div class="feature-grid">
           <article class="feature-card">
             <div class="card-index">01</div>
-            <h3>Şifreleme önce gelir</h3>
-            <p>
-              DeniKey, verilerinizi korumayı merkeze alır. Şifreleriniz uygulamanın temel yapısında güvenli şekilde ele alınır.
+            <h3 data-i18n="feat1.h3">Encryption first</h3>
+            <p data-i18n="feat1.p">
+              DeniKey puts data protection at its core. Your passwords are handled securely within the application's foundational structure.
             </p>
           </article>
           <article class="feature-card">
             <div class="card-index">02</div>
-            <h3>Daha düzenli yönetim</h3>
-            <p>
-              Giriş bilgileri, kartlar, notlar ve benzeri veriler tek yerde toplanır. Aradığınızı bulmak daha kolay hale gelir.
+            <h3 data-i18n="feat2.h3">Better organization</h3>
+            <p data-i18n="feat2.p">
+              Login credentials, cards, notes and similar data are gathered in one place. Finding what you need becomes effortless.
             </p>
           </article>
           <article class="feature-card">
             <div class="card-index">03</div>
-            <h3>Cihaz odaklı güven</h3>
-            <p>
-              Yeni girişler ve cihaz kullanımı daha kontrollü ilerler. Bu da hesabınız üzerinde ekstra bir güven hissi oluşturur.
+            <h3 data-i18n="feat3.h3">Device-centered trust</h3>
+            <p data-i18n="feat3.p">
+              New logins and device usage are tracked more carefully. This builds an extra layer of confidence over your account.
             </p>
           </article>
           <article class="feature-card">
             <div class="card-index">04</div>
-            <h3>Sade kullanım deneyimi</h3>
-            <p>
-              Güvenlik güçlü olabilir ama kullanım karmaşık olmak zorunda değil. DeniKey, bunu mümkün olduğunca basit hissettirmeyi hedefler.
+            <h3 data-i18n="feat4.h3">Simple user experience</h3>
+            <p data-i18n="feat4.p">
+              Security can be strong without being complex. DeniKey aims to make protection feel as straightforward as possible.
             </p>
           </article>
         </div>
@@ -133,36 +141,36 @@
 
       <section class="architecture reveal" id="architecture">
         <div class="section-heading">
-          <p class="eyebrow">Güvenlik Mimarisi</p>
-          <h2>Koruma mantığı, uygulamanın merkezinde çalışır.</h2>
+          <p class="eyebrow" data-i18n="arch.eyebrow">Security Architecture</p>
+          <h2 data-i18n="arch.h2">The protection logic runs at the heart of the application.</h2>
         </div>
         <div class="architecture-grid">
           <article class="architecture-card">
             <div class="card-index">01</div>
-            <h3>İstemci tarafında şifreleme</h3>
-            <p>
-              Vault verileri cihaz tarafında şifrelenir. Sunucu, veriyi düz metin halinde görmeden yalnızca şifreli içerikle çalışır.
+            <h3 data-i18n="arch1.h3">Client-side encryption</h3>
+            <p data-i18n="arch1.p">
+              Vault data is encrypted on the device. The server only works with encrypted content — it never sees your data in plain text.
             </p>
           </article>
           <article class="architecture-card">
             <div class="card-index">02</div>
-            <h3>Argon2id ve AES-256-GCM</h3>
-            <p>
-              Anahtar türetme ve veri şifreleme katmanı modern algoritmalarla kuruludur. Bu yapı hem dayanıklılık hem bütünlük kontrolü sağlar.
+            <h3 data-i18n="arch2.h3">Argon2id and AES-256-GCM</h3>
+            <p data-i18n="arch2.p">
+              The key derivation and encryption layer is built on modern algorithms, providing both durability and integrity verification.
             </p>
           </article>
           <article class="architecture-card">
             <div class="card-index">03</div>
-            <h3>Her işlem için yeni nonce</h3>
-            <p>
-              Şifreleme sırasında her veri için yeni IV/nonce üretilir. Bu sayede tekrar eden veri desenleri açığa çıkmaz.
+            <h3 data-i18n="arch3.h3">New nonce per operation</h3>
+            <p data-i18n="arch3.p">
+              A unique IV/nonce is generated for every piece of data during encryption, ensuring repeating patterns are never exposed.
             </p>
           </article>
           <article class="architecture-card">
             <div class="card-index">04</div>
-            <h3>Sıfır-bilgi yaklaşımı</h3>
-            <p>
-              Master password sunucuya gönderilmez. Kritik şifreleme mantığı uygulama tarafında kalır ve koruma sınırı bu noktada başlar.
+            <h3 data-i18n="arch4.h3">Zero-knowledge approach</h3>
+            <p data-i18n="arch4.p">
+              Your master password is never sent to the server. Critical encryption logic stays on your device, and the protection boundary begins there.
             </p>
           </article>
         </div>
@@ -170,35 +178,35 @@
 
       <section class="stack reveal" id="stack">
         <div class="section-heading">
-          <p class="eyebrow">Teknik Altyapı</p>
-          <h2>Modern, katmanlı ve denetlenebilir bir yapı.</h2>
+          <p class="eyebrow" data-i18n="stack.eyebrow">Technical Stack</p>
+          <h2 data-i18n="stack.h2">Modern, layered, and auditable.</h2>
         </div>
         <div class="stack-shell">
           <article class="stack-panel">
-            <h3>Uygulama katmanı</h3>
+            <h3 data-i18n="stack.app.h3">Application layer</h3>
             <ul class="stack-list">
-              <li>Flutter masaüstü istemcisi</li>
-              <li>Riverpod tabanlı state yönetimi</li>
-              <li>GoRouter ile akış kontrolü</li>
-              <li>Güvenli yerel depolama ve offline cache desteği</li>
+              <li data-i18n="stack.app.li1">Flutter desktop client</li>
+              <li data-i18n="stack.app.li2">Riverpod-based state management</li>
+              <li data-i18n="stack.app.li3">GoRouter for navigation flow</li>
+              <li data-i18n="stack.app.li4">Secure local storage and offline cache support</li>
             </ul>
           </article>
           <article class="stack-panel">
-            <h3>Servis katmanı</h3>
+            <h3 data-i18n="stack.svc.h3">Service layer</h3>
             <ul class="stack-list">
-              <li>FastAPI tabanlı backend mimarisi</li>
-              <li>JWT kimlik doğrulama ve refresh token akışı</li>
-              <li>Cihaz doğrulama ve rate limiting korumaları</li>
-              <li>Audit log, destek talebi ve parola geçmişi desteği</li>
+              <li data-i18n="stack.svc.li1">FastAPI-based backend architecture</li>
+              <li data-i18n="stack.svc.li2">JWT authentication and refresh token flow</li>
+              <li data-i18n="stack.svc.li3">Device verification and rate limiting</li>
+              <li data-i18n="stack.svc.li4">Audit log, support requests, and password history</li>
             </ul>
           </article>
           <article class="stack-panel">
-            <h3>Veri katmanı</h3>
+            <h3 data-i18n="stack.data.h3">Data layer</h3>
             <ul class="stack-list">
-              <li>SQLAlchemy async veri erişim yapısı</li>
-              <li>Alembic migration akışı</li>
-              <li>PostgreSQL uyumlu kalıcı veri modeli</li>
-              <li>Şifreli vault verisi ile ayrıştırılmış metadata yapısı</li>
+              <li data-i18n="stack.data.li1">SQLAlchemy async data access</li>
+              <li data-i18n="stack.data.li2">Alembic migration flow</li>
+              <li data-i18n="stack.data.li3">PostgreSQL-compatible persistent data model</li>
+              <li data-i18n="stack.data.li4">Encrypted vault data with separated metadata structure</li>
             </ul>
           </article>
         </div>
@@ -206,12 +214,10 @@
 
       <section class="assurance reveal" id="assurance">
         <div class="assurance-card">
-          <p class="eyebrow">Neden Güvenilir?</p>
-          <h2>Gösterişli vaatlerden çok, uygulanmış güvenlik katmanlarına dayanır.</h2>
-          <p>
-            DeniKey tarafında güven; istemcide şifreleme, cihaz bazlı doğrulama, modern kimlik doğrulama akışı,
-            işlem kayıtları, biyometrik kilit ve kontrollü veri erişimi ile kurulur. Amaç yalnızca şifre saklamak değil,
-            bunu teknik olarak tutarlı bir mimari üzerinde yapmak.
+          <p class="eyebrow" data-i18n="assurance.eyebrow">Why Trust It?</p>
+          <h2 data-i18n="assurance.h2">Built on implemented security layers, not flashy promises.</h2>
+          <p data-i18n="assurance.p">
+            Trust in DeniKey is established through client-side encryption, device-based verification, a modern authentication flow, transaction logs, biometric lock, and controlled data access. The goal isn't just to store passwords — it's to do so on a technically consistent, well-structured architecture.
           </p>
         </div>
       </section>
@@ -219,15 +225,16 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite" hidden>
-    <span id="toastMessage">İndirme paketi şu anda hazırlanıyor.</span>
+    <span id="toastMessage" data-i18n="toast.msg">Download package is being prepared.</span>
   </div>
 
   <footer style="text-align:center;padding:24px;font-size:0.8rem;color:#64748b;">
-    <a href="/privacy.html" style="color:#60a5fa;text-decoration:none;">Gizlilik Politikası</a>
+    <a href="/privacy.html" style="color:#60a5fa;text-decoration:none;" data-i18n="footer.privacy">Privacy Policy</a>
     &nbsp;·&nbsp;
     © 2026 DeniKey
   </footer>
 
+  <script src="translations.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
