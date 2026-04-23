@@ -24,19 +24,17 @@
     showToast('İndirme paketi şu anda hazırlanıyor.');
   }
 
-  // ── Download buttons ───────────────────────────────
-  var downloadBtns = document.querySelectorAll('.download-btn');
+  // ── Download button ────────────────────────────────
+  var downloadBtn = document.getElementById('downloadButton');
 
-  if (downloadBtns.length) {
+  if (downloadBtn) {
     fetch('/api/site-state')
       .then(function (r) { return r.json(); })
       .then(function (state) {
         if (!state.download_enabled) {
-          downloadBtns.forEach(function (btn) {
-            btn.addEventListener('click', function (e) {
-              e.preventDefault();
-              showToast('İndirme paketi şu anda hazırlanıyor.');
-            });
+          downloadBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            showToast('İndirme paketi şu anda hazırlanıyor.');
           });
         }
       })
