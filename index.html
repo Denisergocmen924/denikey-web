@@ -9,10 +9,7 @@
     content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
   >
   <title>DeniKey | Your Passwords Are Safe</title>
-  <meta
-    name="description"
-    content="DeniKey is a modern password manager built to help you manage your passwords more securely and simply."
-  >
+  <meta name="description" content="DeniKey is a modern password manager built to help you manage your passwords more securely and simply.">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -22,15 +19,8 @@
     "operatingSystem": "Windows, Linux, Android",
     "description": "DeniKey is a modern password manager built to help you manage your passwords more securely and simply.",
     "url": "https://denikey.website",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "author": {
-      "@type": "Person",
-      "name": "Denis Ergöçmen"
-    }
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Denis Ergöçmen" }
   }
   </script>
   <link rel="stylesheet" href="app.css">
@@ -40,6 +30,7 @@
     <div class="noise"></div>
     <div class="orb orb-one"></div>
     <div class="orb orb-two"></div>
+    <div class="orb orb-three"></div>
     <div class="grid-lines"></div>
 
     <header class="topbar">
@@ -64,10 +55,12 @@
     </header>
 
     <main>
+
+      <!-- HERO -->
       <section class="hero reveal" id="hero">
         <div class="hero-copy">
           <p class="eyebrow" data-i18n="hero.eyebrow">DeniKey</p>
-          <h1 data-i18n="hero.h1">Your passwords are safe.</h1>
+          <h1 class="gradient-heading" data-i18n="hero.h1">Your passwords are safe.</h1>
           <p class="hero-text" data-i18n="hero.text">
             DeniKey was built to help you manage your passwords more securely and organized, all in one place. It combines powerful protection with a clean, focused experience.
           </p>
@@ -84,7 +77,7 @@
               <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.523 15.341a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zm-11.046 0a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zM.435 7.91l2.05 3.55A2.5 2.5 0 0 0 4.5 12.75h15a2.5 2.5 0 0 0 2.015-1.29l2.05-3.55A1 1 0 0 0 22.69 6.5H1.31a1 1 0 0 0-.875 1.41zM15.4 1.1l1.5 2.6H7.1l1.5-2.6a.5.5 0 0 1 .866 0L10.5 2.75h3l1.034-1.65a.5.5 0 0 1 .866 0zM4.5 14.25v5a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-5H4.5z"/></svg>
               Android
             </a>
-            <a class="secondary-button" href="#about" data-i18n="btn.what">What is it?</a>
+            <a class="secondary-button" href="#demo" data-i18n="btn.demo">See how it works</a>
           </div>
         </div>
 
@@ -113,6 +106,38 @@
         </div>
       </section>
 
+      <!-- STATS STRIP -->
+      <section class="stats-strip">
+        <div class="stat-item">
+          <div class="stat-value">
+            <span class="stat-num" data-target="256">256</span><span class="stat-unit">-bit</span>
+          </div>
+          <div class="stat-label" data-i18n="stat1.label">AES-GCM Encryption</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-value">
+            <span class="stat-num stat-zero" data-target="0">0</span><span class="stat-unit">%</span>
+          </div>
+          <div class="stat-label" data-i18n="stat2.label">Plaintext on Server</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-value">
+            <span class="stat-num" data-target="3">3</span>
+          </div>
+          <div class="stat-label" data-i18n="stat3.label">Platforms Supported</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-value">
+            <span class="stat-num" data-target="29">29</span>
+          </div>
+          <div class="stat-label" data-i18n="stat4.label">Security Checks Passed</div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
       <section class="about reveal" id="about">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="about.eyebrow">What is it?</p>
@@ -123,6 +148,80 @@
         </p>
       </section>
 
+      <!-- ENCRYPTION DEMO -->
+      <section class="crypto-demo reveal" id="demo">
+        <div class="section-heading">
+          <p class="eyebrow" data-i18n="demo.eyebrow">See It In Action</p>
+          <h2 data-i18n="demo.h2">Your password never leaves your device unencrypted.</h2>
+        </div>
+
+        <div class="demo-arena">
+
+          <div class="demo-panel">
+            <div class="demo-panel-header">
+              <div class="demo-dot demo-dot--green"></div>
+              <span class="demo-panel-title" data-i18n="demo.left.title">You type</span>
+            </div>
+            <input
+              type="text"
+              id="demoInput"
+              class="demo-input"
+              autocomplete="off"
+              spellcheck="false"
+              maxlength="32"
+              data-i18n-placeholder="demo.placeholder"
+              placeholder="Type a password..."
+            >
+            <div class="demo-badges">
+              <span class="demo-badge">Argon2id</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+              <span class="demo-badge">AES-256-GCM</span>
+            </div>
+            <p class="demo-sublabel" data-i18n="demo.left.sub">Stays only on your device</p>
+          </div>
+
+          <div class="demo-center-col">
+            <div class="demo-lock" id="demoLock" aria-hidden="true">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+          </div>
+
+          <div class="demo-panel demo-panel--right">
+            <div class="demo-panel-header">
+              <div class="demo-dot demo-dot--red"></div>
+              <span class="demo-panel-title" data-i18n="demo.right.title">Server receives</span>
+            </div>
+            <div class="demo-output" id="demoOutput" aria-live="polite">
+              <span class="demo-output-hint" data-i18n="demo.right.placeholder">Start typing to see encryption in action...</span>
+              <span class="demo-output-text" id="demoOutputText" aria-hidden="true"></span>
+            </div>
+            <p class="demo-sublabel" data-i18n="demo.right.sub">Encrypted — unreadable without your key</p>
+          </div>
+
+        </div>
+
+        <div class="demo-wire-section">
+          <div class="demo-node">
+            <div class="demo-node-glow"></div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <span class="demo-node-label" data-i18n="demo.node.client">Your Device</span>
+          </div>
+          <div class="demo-wire">
+            <div class="demo-wire-label">HTTPS · TLS · AES-256-GCM</div>
+            <div class="demo-wire-track">
+              <div class="demo-packet" id="demoPacket"></div>
+            </div>
+          </div>
+          <div class="demo-node demo-node--server" id="demoServerNode">
+            <div class="demo-node-glow"></div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span class="demo-node-label" data-i18n="demo.node.server">DeniKey Server</span>
+            <span class="demo-server-badge" id="demoServerBadge" data-i18n="demo.stored">Stored ✓</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
       <section class="features reveal" id="features">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="features.eyebrow">Highlights</p>
@@ -132,34 +231,27 @@
           <article class="feature-card">
             <div class="card-index">01</div>
             <h3 data-i18n="feat1.h3">Encryption first</h3>
-            <p data-i18n="feat1.p">
-              DeniKey puts data protection at its core. Your passwords are handled securely within the application's foundational structure.
-            </p>
+            <p data-i18n="feat1.p">DeniKey puts data protection at its core. Your passwords are handled securely within the application's foundational structure.</p>
           </article>
           <article class="feature-card">
             <div class="card-index">02</div>
             <h3 data-i18n="feat2.h3">Better organization</h3>
-            <p data-i18n="feat2.p">
-              Login credentials, cards, notes and similar data are gathered in one place. Finding what you need becomes effortless.
-            </p>
+            <p data-i18n="feat2.p">Login credentials, cards, notes and similar data are gathered in one place. Finding what you need becomes effortless.</p>
           </article>
           <article class="feature-card">
             <div class="card-index">03</div>
             <h3 data-i18n="feat3.h3">Device-centered trust</h3>
-            <p data-i18n="feat3.p">
-              New logins and device usage are tracked more carefully. This builds an extra layer of confidence over your account.
-            </p>
+            <p data-i18n="feat3.p">New logins and device usage are tracked more carefully. This builds an extra layer of confidence over your account.</p>
           </article>
           <article class="feature-card">
             <div class="card-index">04</div>
             <h3 data-i18n="feat4.h3">Simple user experience</h3>
-            <p data-i18n="feat4.p">
-              Security can be strong without being complex. DeniKey aims to make protection feel as straightforward as possible.
-            </p>
+            <p data-i18n="feat4.p">Security can be strong without being complex. DeniKey aims to make protection feel as straightforward as possible.</p>
           </article>
         </div>
       </section>
 
+      <!-- ARCHITECTURE -->
       <section class="architecture reveal" id="architecture">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="arch.eyebrow">Security Architecture</p>
@@ -169,34 +261,27 @@
           <article class="architecture-card">
             <div class="card-index">01</div>
             <h3 data-i18n="arch1.h3">Client-side encryption</h3>
-            <p data-i18n="arch1.p">
-              Vault data is encrypted on the device. The server only works with encrypted content — it never sees your data in plain text.
-            </p>
+            <p data-i18n="arch1.p">Vault data is encrypted on the device. The server only works with encrypted content — it never sees your data in plain text.</p>
           </article>
           <article class="architecture-card">
             <div class="card-index">02</div>
             <h3 data-i18n="arch2.h3">Argon2id and AES-256-GCM</h3>
-            <p data-i18n="arch2.p">
-              The key derivation and encryption layer is built on modern algorithms, providing both durability and integrity verification.
-            </p>
+            <p data-i18n="arch2.p">The key derivation and encryption layer is built on modern algorithms, providing both durability and integrity verification.</p>
           </article>
           <article class="architecture-card">
             <div class="card-index">03</div>
             <h3 data-i18n="arch3.h3">New nonce per operation</h3>
-            <p data-i18n="arch3.p">
-              A unique IV/nonce is generated for every piece of data during encryption, ensuring repeating patterns are never exposed.
-            </p>
+            <p data-i18n="arch3.p">A unique IV/nonce is generated for every piece of data during encryption, ensuring repeating patterns are never exposed.</p>
           </article>
           <article class="architecture-card">
             <div class="card-index">04</div>
             <h3 data-i18n="arch4.h3">Zero-knowledge approach</h3>
-            <p data-i18n="arch4.p">
-              Your master password is never sent to the server. Critical encryption logic stays on your device, and the protection boundary begins there.
-            </p>
+            <p data-i18n="arch4.p">Your master password is never sent to the server. Critical encryption logic stays on your device, and the protection boundary begins there.</p>
           </article>
         </div>
       </section>
 
+      <!-- STACK -->
       <section class="stack reveal" id="stack">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="stack.eyebrow">Technical Stack</p>
@@ -233,6 +318,7 @@
         </div>
       </section>
 
+      <!-- ASSURANCE -->
       <section class="assurance reveal" id="assurance">
         <div class="assurance-card">
           <p class="eyebrow" data-i18n="assurance.eyebrow">Why Trust It?</p>
@@ -242,6 +328,7 @@
           </p>
         </div>
       </section>
+
     </main>
   </div>
 
@@ -249,10 +336,10 @@
     <span id="toastMessage" data-i18n="toast.msg">Download package is being prepared.</span>
   </div>
 
-  <footer style="text-align:center;padding:24px;font-size:0.8rem;color:#64748b;">
-    <a href="/privacy.html" style="color:#60a5fa;text-decoration:none;" data-i18n="footer.privacy">Privacy Policy</a>
-    &nbsp;·&nbsp;
-    © 2026 DeniKey
+  <footer class="site-footer">
+    <a href="/privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
+    <span class="footer-sep">·</span>
+    <span>© 2026 DeniKey</span>
   </footer>
 
   <script src="translations.js"></script>
