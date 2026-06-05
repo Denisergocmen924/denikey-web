@@ -139,6 +139,12 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         clean_path = posixpath.normpath(unquote(parsed.path))
 
+        # M43: çift-encode saldırısını reddet — tek decode'dan sonra kalan % base handler'ın
+        # ikinci unquote'unu tetikler ve allowlist'i bypass eder
+        if "%" in clean_path:
+            self.send_error(HTTPStatus.BAD_REQUEST)
+            return
+
         if clean_path == "/":
             self.path = "/index.html"
             super().do_GET()
@@ -184,6 +190,7 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=()")
         self.send_header("Cross-Origin-Opener-Policy", "same-origin")
         self.send_header("Cross-Origin-Resource-Policy", "same-origin")
+        self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains")
         self.send_header(
             "Content-Security-Policy",
             "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; "
@@ -192,8 +199,14 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
         )
         super().end_headers()
 
+    def _client_ip(self) -> str:
+        xff = self.headers.get("X-Forwarded-For", "")
+        if xff:
+            return xff.split(",")[0].strip()
+        return self.client_address[0]
+
     def handle_download(self) -> None:
-        client_ip = self.client_address[0]
+        client_ip = self._client_ip()
         if _is_rate_limited(client_ip):
             self.send_error(HTTPStatus.TOO_MANY_REQUESTS)
             return
