@@ -306,3 +306,52 @@
   }
 
 }());
+
+// İletişim formu
+function switchTab(type, btn) {
+  document.getElementById('contact-type').value = type;
+  document.querySelectorAll('.contact-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+async function submitContact(e) {
+  e.preventDefault();
+  const submit = document.getElementById('contact-submit');
+  const result = document.getElementById('contact-result');
+  submit.disabled = true;
+  result.hidden = true;
+
+  const lang = document.documentElement.lang || 'en';
+  const t = (window.TRANSLATIONS && window.TRANSLATIONS[lang]) || {};
+
+  const payload = {
+    type: document.getElementById('contact-type').value,
+    name: document.getElementById('cf-name').value.trim(),
+    email: document.getElementById('cf-email').value.trim(),
+    subject: document.getElementById('cf-subject').value.trim(),
+    message: document.getElementById('cf-message').value.trim(),
+  };
+
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (res.ok) {
+      result.textContent = t['contact.ok'] || 'Message sent!';
+      result.className = 'contact-result ok';
+      document.getElementById('contact-form').reset();
+    } else {
+      const err = await res.json().catch(() => ({}));
+      result.textContent = err.error || t['contact.err'] || 'Error.';
+      result.className = 'contact-result err';
+    }
+  } catch (_) {
+    result.textContent = t['contact.err'] || 'Error.';
+    result.className = 'contact-result err';
+  }
+
+  result.hidden = false;
+  submit.disabled = false;
+}

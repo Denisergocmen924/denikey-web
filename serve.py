@@ -4,6 +4,8 @@ import json
 import os
 import threading
 import time
+import urllib.request
+import urllib.error
 from collections import defaultdict
 from http import HTTPStatus
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -13,6 +15,25 @@ from urllib.parse import quote, unquote, urlparse
 
 
 ROOT = Path(__file__).resolve().parent
+BACKEND_API_URL = os.environ.get("DENIKEY_API_URL", "https://denikey-backend.fly.dev")
+
+# İletişim formu: 60 dakikada max 3 istek per IP
+_CONTACT_RATE_LIMIT = 3
+_CONTACT_RATE_WINDOW = 3600
+_contact_rate_store: dict[str, list[float]] = defaultdict(list)
+_contact_rate_lock = threading.Lock()
+
+
+def _is_contact_rate_limited(ip: str) -> bool:
+    now = time.monotonic()
+    with _contact_rate_lock:
+        timestamps = [t for t in _contact_rate_store[ip] if now - t < _CONTACT_RATE_WINDOW]
+        if len(timestamps) >= _CONTACT_RATE_LIMIT:
+            _contact_rate_store[ip] = timestamps
+            return True
+        timestamps.append(now)
+        _contact_rate_store[ip] = timestamps
+        return False
 DOWNLOADS_DIR = ROOT / "downloads"
 CONFIG_PATH = ROOT / "site_config.json"
 DEFAULT_PORT = int(os.environ.get("PORT", "8080"))
@@ -166,7 +187,43 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
         self.send_error(HTTPStatus.NOT_FOUND)
 
     def do_POST(self) -> None:
-        self.respond_method_not_allowed()
+        parsed = urlparse(self.path)
+        if posixpath.normpath(parsed.path) == "/api/contact":
+            self.handle_contact()
+        else:
+            self.respond_method_not_allowed()
+
+    def handle_contact(self) -> None:
+        client_ip = self._client_ip()
+        if _is_contact_rate_limited(client_ip):
+            self.respond_json({"error": "Çok fazla istek"}, HTTPStatus.TOO_MANY_REQUESTS)
+            return
+
+        try:
+            length = int(self.headers.get("Content-Length", 0))
+            if length > 16_384:
+                self.respond_json({"error": "İstek çok büyük"}, HTTPStatus.REQUEST_ENTITY_TOO_LARGE)
+                return
+            body = json.loads(self.rfile.read(length).decode("utf-8"))
+        except (json.JSONDecodeError, ValueError):
+            self.respond_json({"error": "Geçersiz JSON"}, HTTPStatus.BAD_REQUEST)
+            return
+
+        req = urllib.request.Request(
+            f"{BACKEND_API_URL}/api/v1/contact",
+            data=json.dumps(body).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                result = json.loads(resp.read().decode("utf-8"))
+            self.respond_json(result)
+        except urllib.error.HTTPError as e:
+            err = json.loads(e.read().decode("utf-8")) if e.fp else {}
+            self.respond_json({"error": err.get("detail", "Hata")}, HTTPStatus(e.code))
+        except Exception:
+            self.respond_json({"error": "Sunucu hatası"}, HTTPStatus.INTERNAL_SERVER_ERROR)
 
     def do_PUT(self) -> None:
         self.respond_method_not_allowed()
