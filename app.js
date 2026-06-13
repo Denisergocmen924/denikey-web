@@ -314,6 +314,15 @@ function switchTab(type, btn) {
   btn.classList.add('active');
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.getElementById('contact-form');
+  if (form) form.addEventListener('submit', submitContact);
+
+  document.querySelectorAll('.contact-tab').forEach(function (btn) {
+    btn.addEventListener('click', function () { switchTab(btn.dataset.type, btn); });
+  });
+});
+
 async function submitContact(e) {
   e.preventDefault();
   const submit = document.getElementById('contact-submit');

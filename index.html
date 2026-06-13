@@ -336,10 +336,10 @@
         </div>
         <div class="contact-card">
           <div class="contact-tabs">
-            <button class="contact-tab active" onclick="switchTab('general',this)" data-i18n="contact.tab.general">General</button>
-            <button class="contact-tab" onclick="switchTab('business',this)" data-i18n="contact.tab.business">Business</button>
+            <button class="contact-tab active" data-type="general" data-i18n="contact.tab.general">General</button>
+            <button class="contact-tab" data-type="business" data-i18n="contact.tab.business">Business</button>
           </div>
-          <form id="contact-form" onsubmit="submitContact(event)">
+          <form id="contact-form">
             <input type="hidden" id="contact-type" value="general">
             <div class="contact-field">
               <label data-i18n="contact.name">Name</label>
