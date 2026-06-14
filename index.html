@@ -8,7 +8,7 @@
     http-equiv="Content-Security-Policy"
     content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
   >
-  <title>DeniKey | Your Passwords Are Safe</title>
+  <title>DeniKey | Zero-Knowledge Password Security</title>
   <meta name="description" content="DeniKey is a modern password manager built to help you manage your passwords more securely and simply.">
   <script type="application/ld+json">
   {
@@ -26,7 +26,11 @@
   <link rel="stylesheet" href="app.css">
 </head>
 <body>
+
+  <div class="c-cursor" id="cCursor" aria-hidden="true"></div>
+
   <div class="page-shell">
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
     <div class="noise"></div>
     <div class="orb orb-one"></div>
     <div class="orb orb-two"></div>
@@ -56,57 +60,115 @@
 
     <main>
 
-      <!-- HERO -->
+      <!-- ── HERO ──────────────────────────────────────── -->
       <section class="hero reveal" id="hero">
         <div class="hero-copy">
           <p class="eyebrow" data-i18n="hero.eyebrow">DeniKey</p>
           <h1 class="gradient-heading" data-i18n="hero.h1">Your passwords are safe.</h1>
           <p class="hero-text" data-i18n="hero.text">
-            DeniKey was built to help you manage your passwords more securely and organized, all in one place. It combines powerful protection with a clean, focused experience.
+            AES-256-GCM encryption. Argon2id key derivation. Your master password never reaches our servers — not in plaintext, not in hash form. Zero-knowledge by design.
           </p>
           <div class="hero-actions">
-            <a class="primary-button download-btn" href="https://github.com/Denisergocmen924/denikey-releases/releases/latest/download/DeniKey-Setup.exe" id="downloadWindows" target="_blank" rel="noopener noreferrer">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-13.051-1.8"/></svg>
-              Windows
+            <a class="btn-dl" href="https://github.com/Denisergocmen924/denikey-releases/releases/latest/download/DeniKey-Setup.exe" id="downloadWindows" target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-13.051-1.8"/></svg>
+              <span>Windows</span>
             </a>
-            <a class="primary-button download-btn download-ubuntu" href="https://github.com/Denisergocmen924/denikey-releases/releases/latest/download/DeniKey-Linux.zip" id="downloadUbuntu" target="_blank" rel="noopener noreferrer">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.504 0c-.155 0-.315.008-.48.021C7.309.156 3.274 2.765 1.603 6.682c-1.66 3.929-.988 8.388 1.82 11.652 1.491 1.739 3.427 2.974 5.516 3.628.05.015.1.022.149.022.285 0 .527-.196.598-.479.025-.1.021-.205-.012-.301l-.726-2.187c1.122.357 2.31.552 3.553.552 2.187 0 4.23-.666 5.952-1.849l-.731 2.181c-.044.133-.04.276.012.406.074.186.246.302.436.302.05 0 .1-.008.15-.023 2.088-.654 4.023-1.889 5.514-3.629 2.807-3.263 3.479-7.722 1.82-11.651C20.729 2.764 16.695.156 12.527.021 12.52.008 12.512 0 12.504 0zm.109 2.025c3.858.098 7.332 2.337 8.728 5.739.013.03.018.062.018.094 0 .09-.043.174-.119.226l-.393.262a9.3 9.3 0 0 0-.587-1.27c-1.101-1.937-2.892-3.328-5.021-3.906.198-.371.358-.74.466-1.096.079-.266.017-.551-.169-.73a.62.62 0 0 0-.923.681zM8.5 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm7 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z"/></svg>
-              Ubuntu
+            <a class="btn-dl" href="https://github.com/Denisergocmen924/denikey-releases/releases/latest/download/DeniKey-Linux.zip" id="downloadUbuntu" target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.04c-5.51 0-9.96 4.45-9.96 9.96 0 5.51 4.45 9.96 9.96 9.96 5.51 0 9.96-4.45 9.96-9.96 0-5.51-4.45-9.96-9.96-9.96zm0 1.68c1.42 0 2.74.36 3.9.99l-1.11 1.92A6.14 6.14 0 0 0 12 6.12a6.14 6.14 0 0 0-6.14 6.14 6.14 6.14 0 0 0 6.14 6.14 6.14 6.14 0 0 0 2.79-.67l1.11 1.92A7.83 7.83 0 0 1 12 20.28a8.28 8.28 0 0 1-8.28-8.28c0-4.57 3.71-8.28 8.28-8.28zm4.95 1.09a1.68 1.68 0 0 1 1.68 1.68 1.68 1.68 0 0 1-1.68 1.68A1.68 1.68 0 0 1 15.27 6.5a1.68 1.68 0 0 1 1.68-1.69zm-9.9 3.72A1.68 1.68 0 0 1 8.73 10.2 1.68 1.68 0 0 1 7.05 11.88 1.68 1.68 0 0 1 5.37 10.2a1.68 1.68 0 0 1 1.68-1.68zm9.9 3.72a1.68 1.68 0 0 1 1.68 1.68 1.68 1.68 0 0 1-1.68 1.68 1.68 1.68 0 0 1-1.68-1.68 1.68 1.68 0 0 1 1.68-1.68z"/></svg>
+              <span>Ubuntu</span>
             </a>
-            <a class="primary-button download-btn download-android" href="https://github.com/Denisergocmen924/denikey-releases/releases/latest/download/DeniKey-Android.apk" id="downloadAndroid" target="_blank" rel="noopener noreferrer">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.523 15.341a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zm-11.046 0a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zM.435 7.91l2.05 3.55A2.5 2.5 0 0 0 4.5 12.75h15a2.5 2.5 0 0 0 2.015-1.29l2.05-3.55A1 1 0 0 0 22.69 6.5H1.31a1 1 0 0 0-.875 1.41zM15.4 1.1l1.5 2.6H7.1l1.5-2.6a.5.5 0 0 1 .866 0L10.5 2.75h3l1.034-1.65a.5.5 0 0 1 .866 0zM4.5 14.25v5a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-5H4.5z"/></svg>
-              Android
+            <a class="btn-dl" href="https://github.com/Denisergocmen924/denikey-releases/releases/latest/download/DeniKey-Android.apk" id="downloadAndroid" target="_blank" rel="noopener noreferrer">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.523 15.341a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zm-11.046 0a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zM.435 7.91l2.05 3.55A2.5 2.5 0 0 0 4.5 12.75h15a2.5 2.5 0 0 0 2.015-1.29l2.05-3.55A1 1 0 0 0 22.69 6.5H1.31a1 1 0 0 0-.875 1.41zM15.4 1.1l1.5 2.6H7.1l1.5-2.6a.5.5 0 0 1 .866 0L10.5 2.75h3l1.034-1.65a.5.5 0 0 1 .866 0zM4.5 14.25v5a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-5H4.5z"/></svg>
+              <span>Android</span>
             </a>
-            <a class="secondary-button" href="#demo" data-i18n="btn.demo">See how it works</a>
+            <a class="btn-ghost-arrow" href="#demo" data-i18n="btn.demo">
+              See how it works
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
           </div>
         </div>
 
         <div class="hero-visual" aria-hidden="true">
-          <div class="visual-card main-card">
-            <div class="card-topline"></div>
-            <div class="mini-label" data-i18n="hero.card.label">Protection Active</div>
-            <div class="visual-title" data-i18n="hero.card.title">DeniKey trust layer</div>
-            <div class="visual-lines">
-              <span></span>
-              <span></span>
-              <span></span>
+          <div class="vault-ui">
+            <div class="vui-titlebar">
+              <div class="vui-traffic">
+                <span class="vui-td"></span><span class="vui-td"></span><span class="vui-td vui-td--g"></span>
+              </div>
+              <span class="vui-appname">DeniKey</span>
+              <div class="vui-enc-badge">
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Encrypted
+              </div>
             </div>
-            <div class="signal-cluster">
-              <span></span>
-              <span></span>
-              <span></span>
+            <div class="vui-search">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <span>Search vault…</span>
+            </div>
+            <div class="vui-section-label">LOGINS — 4 items</div>
+            <div class="vui-list" id="vuiList">
+              <div class="vui-item">
+                <div class="vui-icon" style="--ic:#1a73e8">G</div>
+                <div class="vui-meta"><div class="vui-name">Google</div><div class="vui-sub">denis@gmail.com</div></div>
+                <div class="vui-pw">••••••••</div>
+              </div>
+              <div class="vui-item vui-item--hi">
+                <div class="vui-icon vui-icon--gh">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                </div>
+                <div class="vui-meta"><div class="vui-name">GitHub</div><div class="vui-sub">@denisergocmen924</div></div>
+                <div class="vui-pw vui-pw--vis" id="vaultPwReveal">Kx7$mP9!qR</div>
+              </div>
+              <div class="vui-item">
+                <div class="vui-icon" style="--ic:#ff9900">A</div>
+                <div class="vui-meta"><div class="vui-name">AWS Console</div><div class="vui-sub">root account</div></div>
+                <div class="vui-pw">•••••••••••</div>
+              </div>
+              <div class="vui-item">
+                <div class="vui-icon" style="--ic:#5865f2">D</div>
+                <div class="vui-meta"><div class="vui-name">Discord</div><div class="vui-sub">ergocmen#0001</div></div>
+                <div class="vui-pw">••••••</div>
+              </div>
+            </div>
+            <div class="vui-footer">
+              <span class="vui-tag">AES-256-GCM</span>
+              <span class="vui-tag vui-tag--c">Argon2id</span>
+              <span class="vui-sync"><span class="vui-sync-dot"></span>Synced</span>
             </div>
           </div>
-          <div class="visual-card side-card side-card-top">
-            <span data-i18n="hero.card.local">Local encryption</span>
+          <div class="vui-float vui-float--tl">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Zero-Knowledge
           </div>
-          <div class="visual-card side-card side-card-bottom">
-            <span data-i18n="hero.card.device">Device verification</span>
+          <div class="vui-float vui-float--br">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            Biometric Lock
           </div>
         </div>
       </section>
 
-      <!-- STATS STRIP -->
+      <!-- ── MARQUEE ────────────────────────────────────── -->
+      <div class="marquee-wrap" aria-hidden="true">
+        <div class="marquee-inner">
+          <span>Zero-Knowledge Architecture</span><span class="msep">·</span>
+          <span>AES-256-GCM Encryption</span><span class="msep">·</span>
+          <span>Argon2id Key Derivation</span><span class="msep">·</span>
+          <span>Client-Side Encryption</span><span class="msep">·</span>
+          <span>Device Verification</span><span class="msep">·</span>
+          <span>Biometric Lock</span><span class="msep">·</span>
+          <span>Audit Logging</span><span class="msep">·</span>
+          <span>Cross-Platform</span><span class="msep">·</span>
+          <span>Zero-Knowledge Architecture</span><span class="msep">·</span>
+          <span>AES-256-GCM Encryption</span><span class="msep">·</span>
+          <span>Argon2id Key Derivation</span><span class="msep">·</span>
+          <span>Client-Side Encryption</span><span class="msep">·</span>
+          <span>Device Verification</span><span class="msep">·</span>
+          <span>Biometric Lock</span><span class="msep">·</span>
+          <span>Audit Logging</span><span class="msep">·</span>
+          <span>Cross-Platform</span><span class="msep">·</span>
+        </div>
+      </div>
+
+      <!-- ── STATS ─────────────────────────────────────── -->
       <section class="stats-strip">
         <div class="stat-item">
           <div class="stat-value">
@@ -137,7 +199,7 @@
         </div>
       </section>
 
-      <!-- ABOUT -->
+      <!-- ── ABOUT ─────────────────────────────────────── -->
       <section class="about reveal" id="about">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="about.eyebrow">What is it?</p>
@@ -148,15 +210,14 @@
         </p>
       </section>
 
-      <!-- ENCRYPTION DEMO -->
+      <!-- ── ENCRYPTION DEMO ───────────────────────────── -->
       <section class="crypto-demo reveal" id="demo">
         <div class="section-heading">
-          <p class="eyebrow" data-i18n="demo.eyebrow">See It In Action</p>
-          <h2 data-i18n="demo.h2">Your password never leaves your device unencrypted.</h2>
+          <p class="eyebrow" data-i18n="demo.eyebrow">Live Encryption</p>
+          <h2 data-i18n="demo.h2">End-to-end protection. Watch it happen.</h2>
         </div>
 
         <div class="demo-arena">
-
           <div class="demo-panel">
             <div class="demo-panel-header">
               <div class="demo-dot demo-dot--green"></div>
@@ -181,8 +242,34 @@
           </div>
 
           <div class="demo-center-col">
-            <div class="demo-lock" id="demoLock" aria-hidden="true">
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <div class="demo-lock" id="demoLock" aria-hidden="true"></div>
+            <div class="demo-pipe" id="demoPipe">
+              <div class="demo-pipe-stage" id="dPipeA">
+                <div class="demo-pipe-hd">
+                  <span class="demo-pipe-lbl demo-pipe-lbl--r">Argon2id</span>
+                  <span class="demo-pipe-ver">v19</span>
+                </div>
+                <div class="demo-pipe-params">
+                  <span>m=65536</span><span>t=3</span><span>p=2</span>
+                </div>
+                <div class="demo-pipe-track">
+                  <div class="demo-pipe-fill" id="dPipeFillA"></div>
+                </div>
+              </div>
+              <div class="demo-pipe-arrow" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+              </div>
+              <div class="demo-pipe-stage" id="dPipeB">
+                <div class="demo-pipe-hd">
+                  <span class="demo-pipe-lbl demo-pipe-lbl--c">AES-256-GCM</span>
+                </div>
+                <div class="demo-pipe-params">
+                  <span>96-bit nonce</span><span>128-bit tag</span>
+                </div>
+                <div class="demo-pipe-track">
+                  <div class="demo-pipe-fill demo-pipe-fill--c" id="dPipeFillB"></div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -197,7 +284,6 @@
             </div>
             <p class="demo-sublabel" data-i18n="demo.right.sub">Encrypted — unreadable without your key</p>
           </div>
-
         </div>
 
         <div class="demo-wire-section">
@@ -221,7 +307,7 @@
         </div>
       </section>
 
-      <!-- FEATURES -->
+      <!-- ── FEATURES ──────────────────────────────────── -->
       <section class="features reveal" id="features">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="features.eyebrow">Highlights</p>
@@ -230,28 +316,36 @@
         <div class="feature-grid">
           <article class="feature-card">
             <div class="card-index">01</div>
-            <h3 data-i18n="feat1.h3">Encryption first</h3>
-            <p data-i18n="feat1.p">DeniKey puts data protection at its core. Your passwords are handled securely within the application's foundational structure.</p>
+            <div class="feature-card-body">
+              <h3 data-i18n="feat1.h3">Encryption first</h3>
+              <p data-i18n="feat1.p">DeniKey puts data protection at its core. Your passwords are handled securely within the application's foundational structure.</p>
+            </div>
           </article>
           <article class="feature-card">
             <div class="card-index">02</div>
-            <h3 data-i18n="feat2.h3">Better organization</h3>
-            <p data-i18n="feat2.p">Login credentials, cards, notes and similar data are gathered in one place. Finding what you need becomes effortless.</p>
+            <div class="feature-card-body">
+              <h3 data-i18n="feat2.h3">Better organization</h3>
+              <p data-i18n="feat2.p">Login credentials, cards, notes and similar data are gathered in one place. Finding what you need becomes effortless.</p>
+            </div>
           </article>
           <article class="feature-card">
             <div class="card-index">03</div>
-            <h3 data-i18n="feat3.h3">Device-centered trust</h3>
-            <p data-i18n="feat3.p">New logins and device usage are tracked more carefully. This builds an extra layer of confidence over your account.</p>
+            <div class="feature-card-body">
+              <h3 data-i18n="feat3.h3">Device-centered trust</h3>
+              <p data-i18n="feat3.p">New logins and device usage are tracked more carefully. This builds an extra layer of confidence over your account.</p>
+            </div>
           </article>
           <article class="feature-card">
             <div class="card-index">04</div>
-            <h3 data-i18n="feat4.h3">Simple user experience</h3>
-            <p data-i18n="feat4.p">Security can be strong without being complex. DeniKey aims to make protection feel as straightforward as possible.</p>
+            <div class="feature-card-body">
+              <h3 data-i18n="feat4.h3">Simple user experience</h3>
+              <p data-i18n="feat4.p">Security can be strong without being complex. DeniKey aims to make protection feel as straightforward as possible.</p>
+            </div>
           </article>
         </div>
       </section>
 
-      <!-- ARCHITECTURE -->
+      <!-- ── ARCHITECTURE ──────────────────────────────── -->
       <section class="architecture reveal" id="architecture">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="arch.eyebrow">Security Architecture</p>
@@ -281,7 +375,7 @@
         </div>
       </section>
 
-      <!-- STACK -->
+      <!-- ── STACK ─────────────────────────────────────── -->
       <section class="stack reveal" id="stack">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="stack.eyebrow">Technical Stack</p>
@@ -289,6 +383,7 @@
         </div>
         <div class="stack-shell">
           <article class="stack-panel">
+            <div class="stack-panel-num" aria-hidden="true">01</div>
             <h3 data-i18n="stack.app.h3">Application layer</h3>
             <ul class="stack-list">
               <li data-i18n="stack.app.li1">Flutter desktop client</li>
@@ -298,6 +393,7 @@
             </ul>
           </article>
           <article class="stack-panel">
+            <div class="stack-panel-num" aria-hidden="true">02</div>
             <h3 data-i18n="stack.svc.h3">Service layer</h3>
             <ul class="stack-list">
               <li data-i18n="stack.svc.li1">FastAPI-based backend architecture</li>
@@ -307,6 +403,7 @@
             </ul>
           </article>
           <article class="stack-panel">
+            <div class="stack-panel-num" aria-hidden="true">03</div>
             <h3 data-i18n="stack.data.h3">Data layer</h3>
             <ul class="stack-list">
               <li data-i18n="stack.data.li1">SQLAlchemy async data access</li>
@@ -318,7 +415,7 @@
         </div>
       </section>
 
-      <!-- ASSURANCE -->
+      <!-- ── ASSURANCE ─────────────────────────────────── -->
       <section class="assurance reveal" id="assurance">
         <div class="assurance-card">
           <p class="eyebrow" data-i18n="assurance.eyebrow">Why Trust It?</p>
@@ -326,9 +423,20 @@
           <p data-i18n="assurance.p">
             Trust in DeniKey is established through client-side encryption, device-based verification, a modern authentication flow, transaction logs, biometric lock, and controlled data access. The goal isn't just to store passwords — it's to do so on a technically consistent, well-structured architecture.
           </p>
+          <div class="assurance-dl-row">
+            <a class="btn-dl btn-dl--accent" href="https://github.com/Denisergocmen924/denikey-releases/releases/latest/download/DeniKey-Linux.zip" id="downloadAssurance" target="_blank" rel="noopener noreferrer">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download for Linux
+            </a>
+            <a class="btn-dl" href="https://github.com/Denisergocmen924/denikey-releases/releases/latest/download/DeniKey-Android.apk" target="_blank" rel="noopener noreferrer">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.523 15.341a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zm-11.046 0a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5zM.435 7.91l2.05 3.55A2.5 2.5 0 0 0 4.5 12.75h15a2.5 2.5 0 0 0 2.015-1.29l2.05-3.55A1 1 0 0 0 22.69 6.5H1.31a1 1 0 0 0-.875 1.41zM15.4 1.1l1.5 2.6H7.1l1.5-2.6a.5.5 0 0 1 .866 0L10.5 2.75h3l1.034-1.65a.5.5 0 0 1 .866 0zM4.5 14.25v5a1.5 1.5 0 0 0 1.5 1.5h12a1.5 1.5 0 0 0 1.5-1.5v-5H4.5z"/></svg>
+              Android APK
+            </a>
+          </div>
         </div>
       </section>
 
+      <!-- ── CONTACT ────────────────────────────────────── -->
       <section class="contact-section reveal" id="contact">
         <div class="section-heading">
           <p class="eyebrow" data-i18n="contact.eyebrow">Contact</p>
@@ -341,13 +449,15 @@
           </div>
           <form id="contact-form">
             <input type="hidden" id="contact-type" value="general">
-            <div class="contact-field">
-              <label data-i18n="contact.name">Name</label>
-              <input type="text" id="cf-name" maxlength="150" required data-i18n-placeholder="contact.name.placeholder">
-            </div>
-            <div class="contact-field">
-              <label data-i18n="contact.email">Email</label>
-              <input type="email" id="cf-email" required data-i18n-placeholder="contact.email.placeholder">
+            <div class="contact-row">
+              <div class="contact-field">
+                <label data-i18n="contact.name">Name</label>
+                <input type="text" id="cf-name" maxlength="150" required data-i18n-placeholder="contact.name.placeholder">
+              </div>
+              <div class="contact-field">
+                <label data-i18n="contact.email">Email</label>
+                <input type="email" id="cf-email" required data-i18n-placeholder="contact.email.placeholder">
+              </div>
             </div>
             <div class="contact-field">
               <label data-i18n="contact.subject">Subject</label>
@@ -376,7 +486,11 @@
     <span>© 2026 DeniKey</span>
   </footer>
 
+  <script src="three.min.js"></script>
+  <script src="gsap.min.js"></script>
+  <script src="ScrollTrigger.min.js"></script>
   <script src="translations.js"></script>
   <script src="app.js"></script>
+  <script src="visual.js"></script>
 </body>
 </html>
