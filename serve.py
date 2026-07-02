@@ -183,6 +183,10 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
             self.handle_download()
             return
 
+        if clean_path in ("/decrypt", "/decrypt.html"):
+            self.handle_decrypt()
+            return
+
         if _is_static_allowed(clean_path):
             self.path = clean_path
             super().do_GET()
@@ -252,12 +256,14 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
         self.send_header("Cross-Origin-Opener-Policy", "same-origin")
         self.send_header("Cross-Origin-Resource-Policy", "same-origin")
         self.send_header("Strict-Transport-Security", "max-age=63072000; includeSubDomains")
-        self.send_header(
-            "Content-Security-Policy",
+        # /decrypt sayfası tek dosyalık offline çözücü: inline script + WASM gerektirir.
+        # Bu yüzden ona özel gevşetilmiş ama ağa kapalı (connect-src 'none') bir CSP verilir.
+        csp = getattr(self, "_csp_override", None) or (
             "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; "
             "connect-src 'self'; font-src 'self' data:; object-src 'none'; base-uri 'self'; "
-            "form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests",
+            "form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
         )
+        self.send_header("Content-Security-Policy", csp)
         super().end_headers()
 
     def _client_ip(self) -> str:
@@ -288,6 +294,24 @@ class DeniKeyHandler(SimpleHTTPRequestHandler):
         self.send_response(HTTPStatus.FOUND)
         self.send_header("Location", location)
         self.end_headers()
+
+    def handle_decrypt(self) -> None:
+        path = ROOT / "decrypt.html"
+        if not path.is_file():
+            self.send_error(HTTPStatus.NOT_FOUND)
+            return
+        body = path.read_bytes()
+        # Ağa kapalı, inline script + WASM'e izin veren özel CSP (end_headers okur)
+        self._csp_override = (
+            "default-src 'none'; script-src 'unsafe-inline' 'wasm-unsafe-eval'; "
+            "style-src 'unsafe-inline'; img-src data:; connect-src 'none'; "
+            "base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+        )
+        self.send_response(HTTPStatus.OK)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
 
     def respond_json(self, payload: dict[str, object], status: HTTPStatus = HTTPStatus.OK) -> None:
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
