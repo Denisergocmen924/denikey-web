@@ -44,7 +44,7 @@ _ALLOWED_REDIRECT_PREFIX = "https://github.com/"
 # Statik olarak servis edilebilecek path'ler (allowlist)
 _STATIC_EXACT = {
     "/index.html", "/app.css", "/app.js", "/translations.js",
-    "/privacy.html", "/sitemap.xml", "/robots.txt",
+    "/privacy.html", "/sitemap.xml", "/robots.txt", "/favicon.ico",
     "/three.min.js", "/gsap.min.js", "/ScrollTrigger.min.js", "/visual.js",
 }
 _STATIC_PREFIXES = ("/assets/", "/downloads/")

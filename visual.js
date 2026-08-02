@@ -113,7 +113,7 @@
       var meshes = wireData.map(function (d) {
         var g = new THREE.IcosahedronGeometry(d.r, 1);
         var m = new THREE.MeshBasicMaterial({
-          color: 0xb02018,
+          color: 0xff5900,
           wireframe: true,
           transparent: true,
           opacity: 0.035,
